@@ -1,0 +1,14 @@
+<p>
+  <strong>Title:</strong>
+  <%= @article.title %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @article.body %>
+</p>
+
+<ul>
+  <li><%= link_to 'Back', articles_path %></li>
+  <li><%= link_to "Edit", edit_article_path(@article) %></li>
+</ul>
