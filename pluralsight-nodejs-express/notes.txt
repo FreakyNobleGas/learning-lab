@@ -1,0 +1,57 @@
+Notes
+-----
+
+What is Node.js?
+    Server Side JavaScript
+    Cross Platform
+    Use NVM-Windows for changing node versions
+
+What is express?
+    Web Dev Framework
+    Ideal for tiny lightweight API
+
+Setting up project with NPM and Express:
+    npm init
+    npm install express (Install a specific version with 'express@x.x.x')
+    create app.js file
+
+Running Project:
+    node app.js
+    http://localhost:3000/
+
+Debug Packages:
+    chalk - Adds color to logging
+    debug - Only runs console logs when debug is set
+        Run Command: 'DEBUG=* node app.js' (Run in BASH!)
+    morgan - logs information about web traffic. Considered 'middleware' 
+
+Tooling
+    npm scripts in package.json
+        To run debug script, run 'npm run debug'
+    nodemon - Automatically restarts web server on code change
+
+Templating Engines with EJS
+    - Uses the syntax '<% JAVASCRIPT + HTML %>' for dynamic code
+    - Example HTML
+        <html>
+            <body>
+                <h1>
+                    <!-- Look for dynamic code -->
+                    Welcome to <%=title%>
+                </h1>
+                <ul>
+                    <!-- Loops through Map Array -->
+                    <% data.map((i) => {
+                        %><li>
+                            <%=i%>
+                        </li><%
+                    })
+                    %>
+                </ul>
+            </body>
+        </html>
+    
+Creating a Router
+    Allows you to dynamically create routes for pages such as for multiple IDs
+    Defined in sessionsRouter.js
+    Difference between res.get and res.render, render allows you to pull ejs file instead of static html

@@ -1,0 +1,36 @@
+{
+  "name": "pluralsight-nodejs-express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "SET DEBUG=app && nodemon app.js",
+    "debug": "SET DEBUG=* && node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FreakyNobleGas/pluralsight-nodejs-express.git"
+  },
+  "author": "Nicholas Quinn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FreakyNobleGas/pluralsight-nodejs-express/issues"
+  },
+  "homepage": "https://github.com/FreakyNobleGas/pluralsight-nodejs-express#readme",
+  "dependencies": {
+    "chalk": "4.1.2",
+    "debug": "^4.3.4",
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.15"
+  },
+  "nodemonConfig": {
+    "restartable": "rs",
+    "delay": 2500,
+    "env": {
+      "PORT": 4000
+    }
+  }
+}
