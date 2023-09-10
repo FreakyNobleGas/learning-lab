@@ -1,0 +1,10 @@
+Terminology
+===========
+Dataframe == Data Table
+https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame
+
+Series == Column in the Dataframe
+https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series
+
+Dataframe.shape == number of rows and columns == nrows and ncolumns
+https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.shape.html#pandas.DataFrame.shape
