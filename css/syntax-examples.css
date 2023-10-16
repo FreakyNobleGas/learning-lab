@@ -1,0 +1,26 @@
+/* Syntax Notes */
+
+/* Find p element within h1 element */
+h1 p {
+    background-color: blue;
+}
+
+/* Universal selector. Resets all CSS rules up to this point. */
+* {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Displays
+
+    block
+        - Each block element will stack on other element vertically
+        - Defaults to 100% of the available width
+    inline-block
+        - Do no create a new line or sit on-top of another element
+        - Defaults to minimum width necessary
+        - Handy for turning a link into a button
+        - Creating rows of several elements
+    none
+        - Completely removes element from the document
+        - Removes all accessibility support! Avoid using.
+*/

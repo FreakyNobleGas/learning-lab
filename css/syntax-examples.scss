@@ -1,0 +1,6 @@
+li {
+    // & is shorthand for the parent selector
+    &:hover {
+        background-color: white;
+    }
+}

@@ -1,0 +1,38 @@
+@import url("https://fonts.googleapis.com/css2?family=Robot&display=swap");
+
+/* Puts all elements flush with the page */
+* {
+    margin: 0;
+    padding: 0;
+    /* The box-sizing property allows us to include the padding and border in an element's total width and height. */
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 2rem;
+    font-family: "Roboto", sans-serif;
+}
+
+ul {
+    list-style-type: none; /* Removes bullets from list */
+    padding: 0.5rem;
+    text-align: right;
+    background-color: black;
+    margin: 0;
+}
+
+li {
+    display: inline-block; /* Puts elements in list side by side */
+    margin-inline: 0.5rem; /* Puts margin only to the left and right of element */
+}
+
+li a {
+    color: white;
+    text-decoration: none; /* https://www.w3schools.com/cssref/pr_text_text-decoration.php */
+}
+
+/* hover and focus are psuedo classes */
+li a:hover, 
+li a:focus {
+    text-decoration: underline; /* Items in list now change to underline if you hover the mouse over it */
+}
