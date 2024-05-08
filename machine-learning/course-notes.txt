@@ -1,0 +1,79 @@
+# Following Google's Machine Learning Crash Course
+# https://developers.google.com/machine-learning/crash-course/ml-intro
+
+# Framing
+Label -> Variable we are trying to predict. Typically referenced as y in linear regression.
+Features -> Input variables describing our data. (x1, x2, .. xn)
+Examples ->
+    - Particular instance of data. (x)
+    - Labeled Example -> Used to train the model. Has {features, label}: (x,y)
+    - Unlabeled Example -> Used for making new predictions. Has {features, ?}: (x, ?)
+Model -> Does the predicting
+    Inference -> Action of applying the trained model to the unlabeled examples
+    Regression Model -> Predicts continuous values (e.g. what is the probability of a?)
+    Classification Model -> Predicts discrete values (e.g. is it a or b?)
+
+# Descending into ML
+* Notes from graphing predictions across a x and y plane *
+(Linear Regression)
+Slope of fitted line is -> y = wx + b
+    We use "w" instead of "m", because w refers to the weight vectors
+    b is the bias, which is the length between y = 0 and where the fitted line starts
+    w is the slope
+    x is a feature (a known input)
+    You can have multiple features and weights. (e.g. y = b + w1x1 + w2x2...)
+
+How do we know if we have a good prediction line?
+    We can use loss, which is the distance between points on the graph and the line
+
+Loss
+    - Always positive
+
+Empirical Risk Minimization -> The process of an algorithm building a model using known examples to
+    reduce loss
+
+Squared Loss function
+    - Also known as L2 Loss
+    - Aggregates individual losses in a meaningful fashion
+    = the quare difference between the label and the prediction
+    = (observation - prediction(x))^2
+    = (y - y)^2
+
+Mean Square Error (MSE)
+    - Is the averaged square loss per example over the whole dataset.
+    - To calculate MSE, sum up all the squared losses for individual examples and then divide by the # of examples
+
+# Reducing Loss
+
+Iterative Approach
+    - See "Iterative Learning Approach" picture
+    - Continue to guess the weight value
+    - You want to find the weight as efficiently as possible
+    - In the picture, the "Compute Loss" part is the loss function that the model will use
+    - The model has converged once the overall loss stops changing or at least changes extremely slowly
+
+Gradient Descent (Calculating new values for the loss function)
+    - Convex (bowl shaped) graphs have a single minimum where the slope is zero
+
+    - The gradient is a vector, which contains:
+        - A direction
+        - A magnitude
+    - The gradient algorithm always points in the direction of the steepest increase in the loss function
+
+Learning Rate
+    - Hyperparameters are knobs that programmers can tweak in a machine learning algorithm
+    - Gradient descent algorithms multiply the gradient by a scalar known as learning rate (or step size)
+    - There is a Goldilocks learning rate for every regression problem, which is how flat the loss function is.
+    - A batch is the set of examples used to calcluate the gradient in a single training iteration
+        - Usually a small batch or a batch of one example is more efficient than using the whole dataset
+    - You want the loss curve to flatten out to indicate that the model has trained sufficiently
+
+Model Optimization
+    - Scaling labels, especially in multi-feature models, is really important for speeding up training
+
+Correlation Matrix
+Indicates how each attribute's raw values relate to the other attributes' raw values. Correlation values have the following meanings:
+
+  - 1.0: perfect positive correlation; that is, when one attribute rises, the other attribute rises.
+  - -1.0: perfect negative correlation; that is, when one attribute rises, the other attribute falls.
+  - 0.0: no correlation; the two columns are not linearly related. (https://en.wikipedia.org/wiki/Correlation_and_dependence#/media/File:Correlation_examples2.svg).

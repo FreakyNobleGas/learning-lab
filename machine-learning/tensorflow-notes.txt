@@ -1,0 +1,12 @@
+# Tensorflow (TF)
+
+- TF provides high-level APIs built on top of low-level APIs that provide more flexibility
+- tf.keras is a high level API to define and train machine learning models to make predictions
+    - It is the Tensorflow variant of the open-source Keras API (https://keras.io/)
+
+# Pandas
+Explaining Quantiles - https://stackoverflow.com/questions/57869926/what-are-25-50-75-values-when-we-describe-a-grouped-dataframe
+
+# Helpful Links
+NumPy UltraQuick Tutorial - https://colab.research.google.com/github/google/eng-edu/blob/main/ml/cc/exercises/numpy_ultraquick_tutorial.ipynb?utm_source=mlcc&utm_campaign=colab-external&utm_medium=referral&utm_content=numpy_tf2-colab&hl=en
+Pandas UltraQuick Tutorial - https://colab.research.google.com/github/google/eng-edu/blob/main/ml/cc/exercises/pandas_dataframe_ultraquick_tutorial.ipynb?utm_source=mlcc&utm_campaign=colab-external&utm_medium=referral&utm_content=pandas_tf2-colab&hl=en
