@@ -1,0 +1,25 @@
+COLLECTOR
+---
+
+View Logs in Journal
+--------------------
+journalctl -u otel-contrib-collector.service -n 50
+
+Export Service Name
+-------------------
+export OTEL_RESOURCE_ATTRIBUTES="service.name=demo-flask"
+
+Run Autoinstrument for Flask
+----------------------------
+opentelemetry-instrument flask run
+
+Restart Collector Service
+-------------------------
+sudo systemctl restart otel-contrib-collector.service
+
+PYTHON
+---
+
+Python Install from Requirements File
+-------------------------------------
+pip install -r /path/to/requirements.txt

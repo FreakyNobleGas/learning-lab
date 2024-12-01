@@ -1,0 +1,22 @@
+receivers:
+  hostmetrics:
+    collection_interval: 10s
+    scrapers:
+      cpu:
+      memory:
+processors:
+  batch:
+  resource:
+    attributes:
+    - key: deployment.environment
+      action: insert
+      value: development
+exporters:
+  logging:
+    loglevel: debug
+service:
+  pipelines:
+    metrics:
+      receivers: [hostmetrics]
+      processors: [batch]
+      exporters: [logging]

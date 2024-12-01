@@ -1,0 +1,20 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+processors:
+  batch:
+  resource:
+    attributes:
+    - key: deployment.environment
+      action: insert
+      value: development
+exporters:
+  logging:
+    loglevel: debug
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch, resource]
+      exporters: [logging]
