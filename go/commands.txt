@@ -1,0 +1,19 @@
+Compile and Execute Program
+---------------------------
+go run .
+
+Download and Install Packages
+-----------------------------
+go mod tidy
+
+Create a Go Module
+------------------
+go mod init example.com/greetings
+
+Update Go Dependency
+--------------------
+go mod edit -replace example.com/greetings=../greetings
+
+Run Tests (Any file with *_test.go)
+-----------------------------------
+go test
