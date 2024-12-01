@@ -1,0 +1,15 @@
+Fluentd and Kubernetes
+----------------------
+
+Fluentd 
+    - Runs in it's own pod per a node
+    - Uses master node to get metadog for logs coming from containers
+        Usually in /var/log/containers which are sym links
+
+Fluentbit
+    - More emphasis on Docker and Kubernetes while saving memory consumption
+
+YouTube Video References
+-------------------------
+Getting Started with Logging in Kubernetes - Eduardo Silva, Treasure Data (Any Skill Level)
+https://www.youtube.com/watch?v=7qL5wkAaSh4

@@ -1,0 +1,120 @@
+Kubernetes Clusters
+------------------
+- A K8 Cluster has:
+    - Master that coordinates the cluster
+        - Scheduling Applications
+        - Maintaining applications desired state
+        - scaling applications
+        - rolling out new updates
+
+    - Nodes that are workers that run applications
+        - Either a VM or a physical computer
+        - Each node has a Kublet
+            - Responsible for communicating with master and managing the node
+        - Node should have tools for handling container operations such as Docker or rkt
+        - Nodes communicate with Master through Kubernetes API
+
+    - Pods are created to host an application instance
+        - Represents a group of one or more application containers
+        - Includes Resources
+            - Shared storage, as volumes
+            - Networking, as a unique cluster IP address
+            - Information about how to run each container, such as the container image version or
+              specific ports to use
+            
+
+MiniKube - Lightweight version of Kubernetes that creates a VM on your local machine and
+           deploys a simple cluster containing on one node.
+
+           Commands:
+                    Creating Cluster
+                    ----------------
+                    minikube version
+                    minikube start *This takes a while*
+                    kubectl version
+                    kubectl cluster-info
+                    kubectl get nodes *Lets you know if nodes are good to go*
+                    
+                    Creating and Managing a Deployment
+                    ----------------------------------
+                    kubectl *Gives you a list of commands*
+                        - You can see additional help by saing kubectl <command> --help
+                    kubectl create deployment <name> <image>
+                        - Searches for a suitable node where an instance of an application could be run
+                        - Scheduled the application to run on that node
+                        - Configured the cluster to reschedule the instance of a new node when needed
+                    kubectl get deployments
+                        - Lists your instances
+                    kubectl proxy
+                        - Creates a cluster wide proxy network for all pods/services in the cluster
+                        - A proxy is needed to talk with a pod, since pods are running in an insolated, private network
+                        - You can then curl the pod using the pod name
+                    kubectl logs <pod_name>
+                        - Everything that is normally stdout for an application is converted into a log.
+                    kubectl exec <pod_name> <command>
+                        - Lets you execute commands such as env or BASH
+                        - Ex: kubectl exec -ti <pod_name> bash *This opens a command line in the application*
+
+                    Services 
+                    --------
+                    - kubectl get services
+                    - kubetcl expose
+                    - kubectl describe
+                    - kubectl describe deployment
+                    - kubectl delete service -l run=<podname>
+                    
+                    Scaling
+                    -------
+                    - kubectl scale deployments/<podname> --replicas=<num>
+
+
+ReplicaSet 
+    - Maintains a stable set of replica Pods running at any given time.
+    - Save to frontend.yaml by `kubectl apply -f https://kubernetes.io/examples/controllers/frontend.yaml`
+    - kubectl get rs *Gets the current Replicasets Deployed*
+
+Deployments 
+    - are a higher-level concept that manages ReplicaSets. It is recommended that you use Deployements,
+      rather than ReplicaSets unless you require custom orchestration or don't require and update at all.
+
+Service 
+    - Abstraction that defines a logical set of Pods and a policy by which to access them.
+    - Default service is sometimes called `kubernetes`
+    - Enable a loose coupling between dependent pods
+    - Allow your applications to receive traffic since each Pod's unique IP address is not available outside the cluster
+
+Rolling Updates
+    - Promote an application from one enviroment to another (via container image updates)
+    - Rollback to previous versions 
+    - Continuous Integration and Continuous Delivery of applications with zero downtime
+     
+
+MiniKube Hello-World
+    - Run Hello World with image
+        kubectl run hello-minikube --image=k8s.gcr.io/echoserver:1.4 --port=8080
+    - Check Nodes
+        kubectl get nodes
+    - Check Pods
+        kubectl get pods
+    - Create a new service that exposes a node port
+        kubectl expose deployment hello-minikube --type=NodePort
+    - Get URL for service
+        minikube service hello-minikube --url
+    - Delete Service
+        kubectl delete deployment hello-minikube
+    - Delete Nodeport
+        kubectl delete srv hello-minikube
+
+Kubernetes Nginx
+    - Run Nginx
+        kubectl run nginx --image=docker.io/freakynoblegas/nginx:latest
+    - Get Pods
+        kubectl get pods
+    - Get more information about pods
+        kubectl describe pods
+        kubectl get pods -o wide
+    - Additional Info
+        Create an NGINX Pod (using --generator)
+            kubectl run --generator=run-pod/v1 nginx --image=nginx
+        Create an NGINX Pod (using --restart=Never)
+            kubectl run nginx --image=nginx --restart=Never
