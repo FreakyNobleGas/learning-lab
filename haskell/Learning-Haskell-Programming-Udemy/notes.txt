@@ -1,0 +1,92 @@
+Name : Nicholas Quinn
+Description : Notes from following the Learning Haskell Programming Udemy course. More information can be found at
+              https://www.udemy.com/course/learning-haskell-programming/
+
+Stack is a more modern package installer that installs packages on a project for project basis. This is very similar to node.
+    - command `stack setup` will install Haskell globally for you after initial download
+    - command `stack ghci` starts the interpeter 
+
+
+Section 2:
+
+Discovering Haskell with GHCI
+-----------------------------
+
+:info Bool - This will give you all the definitions for type bool. Very handy!
+    - Furthermore, you can say :info Eq which will give you definitions for Eq which is defined inside Bool
+:info Floating 
+
+123 + 0.5 will give you type Fractional, which is a subtype of number
+
+123 :: Float will tell Haskell you want to treat 123 as a Float 
+
+(123 :: Int) + (123 :: Float) will fail
+
+['H','e','l','l','o'] is the same as "Hello" 
+    - String = [Char]
+
+let a = undefined tells Haskell that a can be any value, so Haskell will try to infer it's type.
+
+Built-in Data Structures
+------------------------
+
+:info [] will give you the definition of lists
+
+1 : [] preappends a number, so the result will be [1]
+
+1 : 2 : [] == [1,2]
+[1,2] ++ [3,4] == [1,2,3,4]
+
+Combination of tail head, then tail, then head is a great way of processing a list one by one
+
+:type (1,2,3) is a tuple with many constraints
+    - Tuples allow you to mix data types
+    - Example (1, "hello", False)
+
+Tuples are powerful, because you can create lists of tuples 
+
+let dict = [("one",1), ("two", 2), ("three", 3)]
+    - `lookup "one" dict` will return 'Just 1'
+
+Maybe is a datatype that might return something, this is powerful with using dictionaries.
+
+Introduction to Functions
+-------------------------
+
+Functions in Haskell are very similar to mathematical functions.
+    - An input is mapped to a specific output (Ideally, this is a valid answer, or we would get a fatal error. This is where `Maybe` comes in.)
+
+
+Building Your Own Data Structures
+---------------------------------
+
+Many data types that you define can use the `deriving` keyword, that will automatically create instances for you such as Show or Eq.
+
+Pattern Matching
+----------------
+
+Section 3:
+
+Setting up the Word Game Grid
+-----------------------------
+
+Hoogle is a great resource for finding functions based on type signatures
+
+Searching For Words
+-------------------
+
+The `` allows us to put a function in the middle of two arguments
+    - Example: "pie" `isInfixOf` "piece"
+
+To index a list, you could simply say 'list !! 0'. This would return the first element.
+
+The map function applies a function on every element of a list
+    - Example: map length ["hello", "Haskell"] would return [5,7]
+
+Searching in All Directions
+---------------------------
+Using (func1 . func2) var is called composing since we are using the results of one function for the next
+
+United Testing the Grid with Hspec
+----------------------------------
+
