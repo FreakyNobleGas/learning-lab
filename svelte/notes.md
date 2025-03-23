@@ -73,6 +73,8 @@
 ```
 
 ## Template Tags / Conditionals
+
+### If/Else
 ```html
 <script lang="ts">
     let formState = $state({
@@ -106,6 +108,34 @@
 {/if}
 ```
 
+### Loops
+
+```html
+<script lang="ts">
+const QUESTIONS = [
+    {
+        question: "What is your name?",
+        id: 'name',
+        type: 'text",
+    }
+];
+</script>
+
+<main>
+<!-- question.id is the element key in the DOM -->
+    {#each QUESTIONS as question (question.id)}
+        <h1>{question.id}</h1>
+    {/each}
+</main>
+
+<!-- Alternatively, you can destructure the keys like below -->
+<main>
+    {#each QUESTIONS as {id, question, type} (id)}
+        <h1>{question.id}</h1>
+    {/each}
+</main>
+```
+
 ## CSS
 - CSS scoped to the component by default. (e.g. style's don't leak)
 
@@ -133,6 +163,28 @@ Global CSS
         background: blue;
     }
 </style>
+```
+
+## Snippets
+- Reusable code blocks
+
+```typescript
+// Passing props to formStep
+{#snippet formStep({ question, id, type})}
+    <div>
+        <article>
+            <div>
+                <label for={id}>{question}</label>
+                <input {type} {id} bind:value{formState[id]}>
+            </div>
+        </article>
+    </div>
+{/snippet}
+
+// Example of how this snippet would be used
+<main>
+    {@render formStep({question: "What's your name", id: "name", type: "text"})}
+</main>
 ```
 
 ## app.d.ts
