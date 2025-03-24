@@ -72,6 +72,32 @@
 <h2>{name.replaceAll('t', 'x')}</h2>
 ```
 
+## Effects
+- Analogous to a side effect (e.g. if something happens, then do this)
+
+```typescript
+// By default, effect will run on mount
+$effect(() => {
+    console.log("On mount.");
+});
+```
+
+```typescript
+// Return function is printed out on destroy
+$effect(() => {
+    return () => {
+        console.log("On destroy/unmount.");
+    }
+});
+```
+
+```typescript
+$effect(() => {
+    // Will log everytime formState.step is updated
+    console.log("formState", formState.step);
+});
+```
+
 ## Template Tags / Conditionals
 
 ### If/Else
