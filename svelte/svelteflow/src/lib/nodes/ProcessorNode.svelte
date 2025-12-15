@@ -2,7 +2,7 @@
     import { Handle, Position } from '@xyflow/svelte';
     import { workflowData, updateNodeData } from '$lib/stores/workflowEngine';
 
-    let { data, id } = $props();
+    let { data, id, selected = false } = $props();
 
     let processedData = $state(null);
     let isProcessing = $state(false);
@@ -63,7 +63,7 @@
     }
   </script>
 
-  <div class="processor-node">
+  <div class="processor-node" class:selected>
     <div class="node-header">
       ⚙️ Pokemon API
     </div>
@@ -112,6 +112,13 @@
       border-radius: 8px;
       min-width: 200px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: all 0.2s;
+    }
+
+    .processor-node.selected {
+      border-color: #fbbf24;
+      border-width: 3px;
+      box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.3);
     }
 
     .node-header {
