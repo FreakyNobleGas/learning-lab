@@ -46,14 +46,14 @@ LiteLLM is a library that acts as a universal adapter between ADK and hundreds o
 ## Project Structure
 
 ```
-google-adk-learning/
+google-adk/
 ├── weather_agent/
-│   ├── __init__.py   ← tells ADK this folder is an agent package
-│   └── agent.py      ← defines tools and exports root_agent
-├── .env              ← environment config (you create this)
-├── .env.example      ← template showing what goes in .env
-├── requirements.txt  ← Python dependencies
-└── README.md         ← you are here
+│   ├── __init__.py      ← tells ADK this folder is an agent package
+│   └── agent.py         ← defines tools and exports root_agent
+├── docker-compose.yml   ← PostgreSQL (sessions) + Ollama (LLM)
+├── .env                 ← environment config (DATABASE_URL lives here)
+├── requirements.txt     ← Python dependencies
+└── README.md            ← you are here
 ```
 
 ADK expects agents to live in subdirectories (packages), not as loose `.py` files. You run `adk web` from the **project root** (`google-adk-learning/`) and ADK discovers the `weather_agent/` folder automatically.
@@ -71,25 +71,27 @@ The `root_agent` variable name is required — ADK won't find your agent without
 
 ## Setup
 
-### 1. Install Ollama
+### 1. Start Docker services
 
-Download and install from [https://ollama.com](https://ollama.com), or via Homebrew:
-
-```bash
-brew install ollama
-```
-
-### 2. Pull a model
-
-This downloads a model to your machine (~2GB for llama3.2):
+Both Ollama and PostgreSQL run in Docker — no separate installs needed.
 
 ```bash
-ollama pull llama3.2
+docker compose up -d
 ```
 
-Ollama will start its local server automatically when needed.
+On first run this pulls the `ollama/ollama` image and downloads the `llama3.2` model (~2 GB). Subsequent starts skip the download because the model is cached in the `ollama_data` volume.
 
-### 3. Create a Python virtual environment
+> **macOS note:** Docker Desktop on Mac does not expose Apple Metal (GPU) to containers, so Ollama runs on CPU inside Docker. Responses will be noticeably slower than native Ollama. If speed matters, install [Ollama natively](https://ollama.com) and comment out the `ollama` service in `docker-compose.yml` — the rest of the setup is identical.
+
+You can watch the model download progress with:
+
+```bash
+docker compose logs -f ollama
+```
+
+Wait until you see `pulling manifest` → `success` before running the agent.
+
+### 2. Create a Python virtual environment
 
 A virtual environment keeps this project's dependencies isolated from the rest of your system.
 
@@ -100,49 +102,69 @@ source .venv/bin/activate
 
 You'll need to run `source .venv/bin/activate` each time you open a new terminal for this project. Your prompt will show `(.venv)` when it's active.
 
-### 4. Install dependencies
+### 3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 5. Create your `.env` file
+### 4. Verify your `.env` file
 
-```bash
-cp .env.example .env
-```
-
-The `.env` file is already set up for local use — no changes needed.
+The `.env` file is already configured for local use — no changes needed.
 
 ---
 
 ## Running the Agent
 
-Make sure your virtual environment is active (`source .venv/bin/activate`) and Ollama is running before any of these.
+Make sure your virtual environment is active (`source .venv/bin/activate`) and Docker services are running (`docker compose up -d`) before any of these.
 
-### Option A: Web UI (recommended for exploring)
+### Option A: Web UI backed by PostgreSQL (recommended)
+
+```bash
+adk web --session_service_uri="postgresql+asyncpg://adk:adk_secret@localhost:5433/adk_sessions"
+```
+
+Opens a chat UI at [http://localhost:8000](http://localhost:8000). Sessions and conversation history are persisted in PostgreSQL — they survive restarts.
+
+ADK automatically creates the required tables (`sessions`, `events`, `user_states`, `app_states`) on first run.
+
+### Option B: Web UI with in-memory sessions (no database)
 
 ```bash
 adk web
 ```
 
-Opens a chat UI at [http://localhost:8000](http://localhost:8000). You can type messages and see the agent's responses, including which tools it called and what they returned.
+Sessions are lost when the process exits. Fine for quick experiments.
 
-### Option B: Terminal chat
+### Option C: Terminal chat
 
 ```bash
-adk run agent.py
+adk run weather_agent
 ```
 
 An interactive chat session in your terminal.
 
-### Option C: REST API server
+### Option D: REST API server
 
 ```bash
-adk api_server
+adk api_server --session_service_uri="postgresql+asyncpg://adk:adk_secret@localhost:5433/adk_sessions"
 ```
 
 Starts a local HTTP server so you can call your agent programmatically from other apps.
+
+---
+
+## Session State: Three Scopes
+
+ADK's session service tracks three tiers of state, all stored in the same PostgreSQL tables:
+
+| Scope | Key prefix | Lifetime | Example use |
+|---|---|---|---|
+| **Session** | _(none)_ | One conversation | Turn counter, in-progress answers |
+| **User** | `user:` | Across all sessions for this user | Preferences, history |
+| **App** | `app:` | Global across all users | Counters, shared config |
+
+Keys with the `user:` or `app:` prefix are routed to their own tables and automatically merged back into `session.state` when you load a session.
 
 ---
 
